@@ -53,9 +53,10 @@ body{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-content: flex-start;
   flex: 1;
-  align-items: flex-start;
+  
 }
 .recipe-item{
   position: relative;
