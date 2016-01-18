@@ -22,6 +22,7 @@ body{
   min-width: $item-size;
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 .header{
   width: 100%;
@@ -43,11 +44,18 @@ body{
     flex-grow: 1;
   }
 }
+.footer{
+  background-color: $prim-color-darker;
+  display: flex;
+  justify-content: center; 
+}
 .recipes{
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+  flex: 1;
+  align-items: flex-start;
 }
 .recipe-item{
   position: relative;
@@ -176,6 +184,13 @@ body{
     content: "\f00d";
     font: normal normal normal 16px/1 FontAwesome;
     padding: 4px;
+  }
+  &.btn-social{
+    color: $prim-color;
+    &:hover{
+      color: #fff;
+      background-color: transparent;
+    }
   }
 }
 .modal-overlay{

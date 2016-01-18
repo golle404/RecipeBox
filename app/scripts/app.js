@@ -5,6 +5,7 @@ var React = window.React = require('react'),
     RecipeDetail = require("./ui/RecipeDetail.js"),
     RecipeForm = require("./ui/RecipeForm.js"),
     ModalOverlay = require("./ui/ModalOverlay.js"),
+    Footer = require("./ui/Footer.js"),
     InitData = require("./data/initData"),
     mountNode = document.getElementById("app");
 
@@ -14,6 +15,7 @@ function getInitData(){
   }
   return InitData; 
 }
+
 var App = React.createClass({
   getInitialState: function() {
     return {
@@ -109,7 +111,7 @@ var App = React.createClass({
   },
   render: function() {
     return (
-      <div>
+      <div className="main">
         <header className="header">
           <h1>RecipeBox</h1>
           <div className="btn new-btn" onClick={this.newRecipe}>New Recipe</div>
@@ -117,6 +119,7 @@ var App = React.createClass({
         <div className="recipes"> 
           {renderItems(this.state.recipes, this.showDetail)}
         </div>
+        <Footer />
         {renderModal(this.state.modalData, this.state.detailEvents, this.state.formEvents)}
       </div>
     );
