@@ -1,0 +1,409 @@
+$prim-color: #e91e63;
+$prim-color-dark: darken($prim-color, 10%);
+$prim-color-darker: darken($prim-color, 20%);
+$prim-color-darkest: darken($prim-color, 30%);
+$prim-color-light: lighten($prim-color, 10%);
+$accent-color: #fff176;
+$item-size: 250px;
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  font-family: 'Quicksand', sans-serif;
+  background: $prim-color;
+  color: #fff;
+}
+
+.main{
+  width: 100%;
+  min-width: $item-size;
+  display: flex;
+  flex-direction: column;
+}
+.header{
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: $prim-color-dark;
+  .new-btn{
+    font-size: 20px;
+    text-align: center;
+    padding: 8px 14px;
+  }
+  h1{
+    padding: 8px;
+    font-size: 34px;
+    font-weight: bold;
+    text-align: center;
+    flex-grow: 1;
+  }
+}
+.recipes{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.recipe-item{
+  position: relative;
+  min-height: $item-size;
+  margin: 10px;
+  padding: 40px;
+  position: relative;
+  background: $prim-color-dark;
+  flex-basis: $item-size;
+  flex-grow: 1;
+  max-width: 450px;
+  overflow: hidden;
+  cursor: pointer;
+  figure{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    z-index: 0;
+    img{
+      width: 100%;
+       &[src=""]{
+          display: none;
+        }
+    }
+    &:after{
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      background-color: transparentize($prim-color-darkest, 0.4);
+      z-index: 1;
+      transition: background-color 350ms ease;
+    }
+  }
+  .recipe-name{
+    position: relative;
+    display: block;
+    top: 50px;
+    text-align: center;
+    transition: all 350ms ease;
+    &:after{
+      content: "";
+      position: absolute;
+      bottom: -150px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      display: block;
+      background: #fff;
+      transition: all 350ms ease;
+      opacity: 0;
+    }
+  }
+  .prep-time, .recipe-category{
+    position: absolute;
+    bottom: -50px;
+    opacity: 0;
+    transition: all 350ms ease;
+  }
+  .recipe-category{
+    right: 5px;
+  }
+  .prep-time{
+    left: 5px;
+  }
+  &:hover{
+    figure:after{
+      background: transparentize($prim-color-darkest, 0.2);  
+    }
+    .recipe-name{
+      top: 0px;
+      &:after{
+        bottom: -10px;
+        opacity: 1;
+      }
+    }
+    .prep-time, .recipe-category{
+       bottom: 5px;
+      opacity: 1;
+    }
+  }
+}
+.prep-time, .recipe-category{
+  padding: 8px 4px 8px;
+  color: $prim-color;
+  background: #fff;
+  border-radius: 10px;
+  display: inline-block;
+  margin: 2px;
+  &:before, &:after{
+    font: normal normal normal 16px/1 FontAwesome;
+    padding: 4px;
+  }
+}
+.prep-time{
+  &:before{
+    content: "\f017";
+  }
+}
+.recipe-category{
+  &:before{
+    content: "\f0f5";
+  }
+}
+.btn{
+  display: inline-block;
+  background: $prim-color-darker;
+  padding: 4px 8px;
+  margin: 2px;
+  border-radius: 10px;
+  color: #fff;
+  cursor: pointer;
+  text-transform: capitalize;
+  &:hover{
+    background-color: $prim-color-darkest;
+  }
+  &.ing-btn:after{
+    content: "\f00d";
+    font: normal normal normal 16px/1 FontAwesome;
+    padding: 4px;
+  }
+}
+.modal-overlay{
+  position: fixed;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    opacity: 0;
+    background: transparentize($prim-color-darkest, 0.2);
+    transition: all 0.3s;
+  &.active{
+    visibility: visible;
+    opacity: 1;
+  }
+}
+.detail-header{
+    background: $prim-color-dark;
+    padding: 8px 4px;
+    display: flex;
+    flex-direction: row;
+    .detail-title{
+      font-size: 26px;
+      text-align: center;
+    }
+}
+.detail-body{
+    background: $prim-color;
+    padding: 8px;
+    display: flex;
+}
+.detail-footer{
+  background: $prim-color-dark;
+  padding: 8px;
+  //display: flex;
+}
+.recipe-detail{
+  position: fixed;
+  top: -50%;
+  left: 50%;
+  width: 80%;
+  max-width: 80%;
+  min-width: 320px;
+  height: auto;
+  background: $prim-color;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 2000;
+  transform: translateX(-50%) translateY(-50%);
+  transition: all 300ms ease;
+  &.active{
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+  }
+  .detail-header{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .detail-title{
+      flex-shrink: 1;
+      flex-basis: 100%;
+      margin: 0 6px;
+    }
+    .prep-time, .recipe-category{
+      padding: 2px;
+      flex-shrink: 0;
+    }
+  }
+  .detail-body{
+    flex-wrap: wrap;
+    align-items: stretch;
+    justify-content: center;
+    .recipe-pic{
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      background: linear-gradient(45deg, $prim-color-light, $prim-color-light 25%, transparent 25%, transparent 50%,$prim-color-light 50%, $prim-color-light 75%, transparent 75%);
+      background-size: 20px 20px;
+      margin: 2px;
+      flex-basis: 25%;
+      max-width: 250px;
+      max-height: 250px;
+      flex-grow: 2;
+      &:before, &:after{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        font: normal normal normal 200px FontAwesome;
+      }
+      &:after{
+        content: "\f05e";
+        color: transparentize($prim-color,0.2);
+      }
+      &:before{
+        content: "\f030";
+        font-size: 100px;
+        color: $prim-color-light;
+      }
+      img{
+        width: 100%;
+        display: block;
+        z-index: 1;
+        &[src=""]{
+          display: none;
+        }
+      }
+    }
+    .ingredient-list{
+      margin: 2px;
+      padding: 10px;
+      flex-basis: 25%;
+      max-width: 200px;
+      flex-grow: 2;
+      &:before{
+        content: "Ingredients:";
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .ingredient-item{
+        list-style: none;
+        color: $prim-color-dark;
+        background: #fff;
+        padding: 4px;
+        margin: 2px;
+        font-size: 16px;
+        text-transform: capitalize;
+        display: block;
+      }
+    }
+    .recipe-instructions{
+      background-color: $prim-color-darker;
+      padding: 12px;
+      margin: 2px;
+      flex-basis: 50%;
+      flex-grow: 2;
+      &:before{
+        content: "Instructions:";
+        display: block;
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+  }
+  .detail-footer{
+    .btn-delete, .btn-edit{
+      float: right;
+    }
+  }
+}
+.recipe-form{
+  position: fixed;
+  top: -50%;
+  left: 50%;
+  width: 80%;
+  max-width: 600px;
+  min-width: 320px;
+  height: auto;
+  max-height: 100%;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 2000;
+  transform: translateX(-50%) translateY(-50%);
+  transition: all 350ms ease;
+  &.active{
+    visibility: visible;
+    opacity: 1;
+    top: 50%;
+  }
+  .form-group{
+    display: flex;
+    .input-group{
+      flex-basis: 40%;
+      flex-grow: 1;
+    }
+  }
+  .input-group{
+    display: flex;
+    flex-direction: column;
+    margin: 2px;
+    &.large{
+      font-size: x-large;
+      input{
+        font-size: x-large;
+      }
+    }
+  }
+  input, textarea{
+    color: #fff;
+    background-color: $prim-color-darker; 
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+  }
+  textarea{
+    height: 150px;
+  }
+  label{
+    padding: 2px;
+  }
+  .detail-header{
+    justify-content: center;
+  }
+  .detail-title{
+    text-align: center;
+  }
+  .detail-body{
+    flex-direction: column;
+  }
+  .ingredient-list{
+    margin-top: 5px;
+    li{
+      display: inline-block;
+    }
+  }
+  .btn-cancel{
+    float: right;
+  }
+  .btn-save{
+    padding: 4px 8px;
+    font-size: 16px;
+  }
+}
